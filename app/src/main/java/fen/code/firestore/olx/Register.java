@@ -2,9 +2,9 @@ package fen.code.firestore.olx;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,14 +35,12 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-
         txtUsername = findViewById(R.id.txtUsername);
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
         btnDaftar = findViewById(R.id.btnDaftar);
 
         auth = FirebaseAuth.getInstance();
-
         progressDialog = new ProgressDialog(this);
 
         btnDaftar.setOnClickListener(new View.OnClickListener() {
@@ -59,13 +57,11 @@ public class Register extends AppCompatActivity {
                 } else {
                     register(username, email, password);
                 }
-
             }
         });
     }
 
     void register(final String username, final String email, String password) {
-
         progressDialog.show();
         progressDialog.setMessage("Loading");
         auth.createUserWithEmailAndPassword(email, password)
@@ -77,7 +73,8 @@ public class Register extends AppCompatActivity {
                             assert user != null;
                             String userId = user.getUid();
 
-                            reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+                            reference = FirebaseDatabase.getInstance()
+                                    .getReference("Users").child(userId);
 
                             HashMap<String, String> hashMap = new HashMap<>();
                             hashMap.put("id", userId);
@@ -85,8 +82,6 @@ public class Register extends AppCompatActivity {
                             hashMap.put("imageUrl", "default");
                             hashMap.put("statusinfo", "default");
                             hashMap.put("email", email);
-
-
                             reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -94,13 +89,12 @@ public class Register extends AppCompatActivity {
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         startActivity(intent);
                                         progressDialog.dismiss();
-//                                        dialog.dismiss();
-                                    }
+                                    } else
+                                        progressDialog.dismiss();
                                 }
                             });
-
-
                         } else {
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "gagal daftar", Toast.LENGTH_LONG).show();
                         }
                     }
