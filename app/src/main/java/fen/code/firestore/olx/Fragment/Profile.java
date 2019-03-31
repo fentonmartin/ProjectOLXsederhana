@@ -68,8 +68,6 @@ public class Profile extends Fragment {
     FirebaseUser user;
     ImageView imgProfile;
     TextView txtNameProfile, txtEmailProfile;
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageRef = storage.getReferenceFromUrl("gs://projecolx.appspot.com/");
     Uri imageCamera, xUri;
     DatabaseReference reference;
 
