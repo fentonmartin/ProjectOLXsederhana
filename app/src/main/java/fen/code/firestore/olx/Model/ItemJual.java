@@ -1,4 +1,4 @@
-package com.example.arbaelbarca.projectolxsederhana.Model;
+package fen.code.firestore.olx.Model;
 
 public class ItemJual {
     public String id, imageUpload,txtTitle,txtDeskripsi,txtHarga, imageProfile , nameProfile;

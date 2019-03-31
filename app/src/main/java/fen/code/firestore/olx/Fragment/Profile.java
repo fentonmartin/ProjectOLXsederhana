@@ -1,4 +1,4 @@
-package com.example.arbaelbarca.projectolxsederhana.Fragment;
+package fen.code.firestore.olx.Fragment;
 
 
 import android.app.ProgressDialog;
@@ -22,12 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.arbaelbarca.projectolxsederhana.Activity.UpdateIklan;
-import com.example.arbaelbarca.projectolxsederhana.Adapter.AdapterHomeIklan;
-import com.example.arbaelbarca.projectolxsederhana.Adapter.AdapterProfileIklan;
-import com.example.arbaelbarca.projectolxsederhana.Model.ItemJual;
-import com.example.arbaelbarca.projectolxsederhana.Model.User;
-import com.example.arbaelbarca.projectolxsederhana.R;
+import fen.code.firestore.olx.Activity.UpdateIklan;
+import fen.code.firestore.olx.Adapter.AdapterProfileIklan;
+import fen.code.firestore.olx.Model.ItemJual;
+import fen.code.firestore.olx.Model.User;
+import fen.code.firestore.olx.R;
+
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

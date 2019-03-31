@@ -1,4 +1,4 @@
-package com.example.arbaelbarca.projectolxsederhana.Adapter;
+package fen.code.firestore.olx.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.arbaelbarca.projectolxsederhana.Model.ItemJual;
-import com.example.arbaelbarca.projectolxsederhana.R;
+import fen.code.firestore.olx.Model.ItemJual;
+import fen.code.firestore.olx.R;
+
 import com.google.firebase.auth.FirebaseUser;
 
 import java.text.NumberFormat;

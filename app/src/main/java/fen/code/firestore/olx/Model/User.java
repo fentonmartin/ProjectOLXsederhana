@@ -1,4 +1,4 @@
-package com.example.arbaelbarca.projectolxsederhana.Model;
+package fen.code.firestore.olx.Model;
 
 public class User {
 

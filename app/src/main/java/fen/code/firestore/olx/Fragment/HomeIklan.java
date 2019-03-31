@@ -1,4 +1,4 @@
-package com.example.arbaelbarca.projectolxsederhana.Fragment;
+package fen.code.firestore.olx.Fragment;
 
 
 import android.app.ProgressDialog;
@@ -7,20 +7,19 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.arbaelbarca.projectolxsederhana.Activity.PostJualIklan;
-import com.example.arbaelbarca.projectolxsederhana.Activity.UpdateIklan;
-import com.example.arbaelbarca.projectolxsederhana.Adapter.AdapterHomeIklan;
-import com.example.arbaelbarca.projectolxsederhana.Model.ItemJual;
-import com.example.arbaelbarca.projectolxsederhana.Model.User;
-import com.example.arbaelbarca.projectolxsederhana.R;
+import fen.code.firestore.olx.Activity.PostJualIklan;
+import fen.code.firestore.olx.Activity.UpdateIklan;
+import fen.code.firestore.olx.Adapter.AdapterHomeIklan;
+import fen.code.firestore.olx.Model.ItemJual;
+import fen.code.firestore.olx.Model.User;
+import fen.code.firestore.olx.R;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;

@@ -1,8 +1,7 @@
-package com.example.arbaelbarca.projectolxsederhana;
+package fen.code.firestore.olx;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -10,13 +9,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.arbaelbarca.projectolxsederhana.Fragment.HomeIklan;
-import com.example.arbaelbarca.projectolxsederhana.Fragment.Profile;
+import fen.code.firestore.olx.Fragment.HomeIklan;
+import fen.code.firestore.olx.Fragment.Profile;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HalamanBeranda extends AppCompatActivity{
 
-    BottomNavigationView bottomNavigation;;
+    BottomNavigationView bottomNavigation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
