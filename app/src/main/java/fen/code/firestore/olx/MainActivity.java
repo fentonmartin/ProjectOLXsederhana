@@ -2,9 +2,9 @@ package fen.code.firestore.olx;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,14 +18,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
+
     EditText txtEmail, txtPassword;
     Button btnLogin;
-    TextView txtDsini ,txtLupaSani;
+    TextView txtDsini, txtLupaSani;
 
     FirebaseAuth auth;
     ProgressDialog dialog;
     FirebaseUser user;
-ProgressDialog progressDialog;
+
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,26 +51,25 @@ ProgressDialog progressDialog;
         txtDsini.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Register.class));
+                startActivity(new Intent(getApplicationContext(), Register.class));
             }
         });
+
         progressDialog = new ProgressDialog(this);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progressDialog.show();
                 progressDialog.setMessage("Loading");
+
                 String email = txtEmail.getText().toString();
                 String password = txtPassword.getText().toString();
 
-                if (email.isEmpty() || password.isEmpty())
-                {
+                if (email.isEmpty() || password.isEmpty()) {
+                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Minimal password 5 caracter", Toast.LENGTH_LONG).show();
-
-                }
-                else
-                {
-                    auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                } else {
+                    auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
@@ -75,11 +77,9 @@ ProgressDialog progressDialog;
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 finish();
-                            }
-                            else
-                            {
+                            } else {
+                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Gagal Masuk", Toast.LENGTH_LONG).show();
-
                             }
                         }
                     });
@@ -88,16 +88,14 @@ ProgressDialog progressDialog;
         });
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
         user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user !=null)
-        {
-            startActivity(new Intent(getApplicationContext(),HalamanBeranda.class));
+
+        if (user != null) {
+            startActivity(new Intent(getApplicationContext(), HalamanBeranda.class));
             finish();
         }
-
     }
 }
