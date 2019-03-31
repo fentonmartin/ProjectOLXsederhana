@@ -5,10 +5,10 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -16,10 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import fen.code.firestore.olx.Model.ItemJual;
-import fen.code.firestore.olx.Model.User;
-import fen.code.firestore.olx.R;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,6 +38,10 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.util.UUID;
 
+import fen.code.firestore.olx.Model.ItemJual;
+import fen.code.firestore.olx.Model.User;
+import fen.code.firestore.olx.R;
+
 public class PostJualIklan extends AppCompatActivity {
 
     ImageView imgUpload;
@@ -54,20 +54,21 @@ public class PostJualIklan extends AppCompatActivity {
     Uri imageCamera, xUri;
     FirebaseFirestore firebaseFirestore;
     FirebaseUser user;
-    String mUri,  uuid;
+    String mUri, uuid;
     Bitmap thumbnail;
     DatabaseReference reference;
     static final int IMAGE_REQUST = 111;
     int PICK_IMAGE_REQUEST = 111;
     String getNama, getimageProfile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_jual_iklan);
 
-
         firebaseFirestore = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
+
         imgUpload = findViewById(R.id.imgupload);
         txtTitle = findViewById(R.id.txtTitle);
         txtDescripsi = findViewById(R.id.txtDeskrispi);
@@ -76,7 +77,8 @@ public class PostJualIklan extends AppCompatActivity {
 
         getNama = getIntent().getStringExtra("namaProfile");
         getimageProfile = getIntent().getStringExtra("imageProfile");
-        Log.d("responGetnama" ,"n" +getNama +getimageProfile);
+        Log.d("responGetnama", "n" + getNama + getimageProfile);
+
         storageReference = FirebaseStorage.getInstance().getReference("UploadIklan");
 
         imgUpload.setOnClickListener(new View.OnClickListener() {
@@ -91,13 +93,13 @@ public class PostJualIklan extends AppCompatActivity {
                 uploadData();
             }
         });
-
     }
 
     private void takeCamera() {
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, CAMERA);
     }
+
     private void openImageGalaery() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -115,25 +117,18 @@ public class PostJualIklan extends AppCompatActivity {
 
 
     private void uploadData() {
-
-
         uuid = UUID.randomUUID().toString();
         uploadImage();
-
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
         if (requestCode == IMAGE_REQUST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             imageCamera = data.getData();
             if (task != null && task.isInProgress()) {
                 Toast.makeText(getApplicationContext(), "Upload Loading", Toast.LENGTH_LONG).show();
-
             } else {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageCamera);
@@ -141,7 +136,6 @@ public class PostJualIklan extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }
 
@@ -175,17 +169,13 @@ public class PostJualIklan extends AppCompatActivity {
         if (imageCamera != null) {
             final StorageReference referenceStore = storageReference.child(System.currentTimeMillis()
                     + "." + getFileExtention(imageCamera));
-
             task = referenceStore.putFile(imageCamera);
             task.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                     if (!task.isSuccessful()) {
                         throw task.getException();
-
-
                     }
-
                     return referenceStore.getDownloadUrl();
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -231,21 +221,14 @@ public class PostJualIklan extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-
                 }
             });
-
-
-        }
-
-        else {
+        } else {
             Toast.makeText(getApplicationContext(), "Tidak ada image yg di pilih", Toast.LENGTH_LONG).show();
         }
     }
 
-
-    void getImageProfile(final ItemJual itemJual)
-    {
+    void getImageProfile(final ItemJual itemJual) {
         FirebaseDatabase.getInstance().getReference("Users").child(user.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override

@@ -22,12 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import fen.code.firestore.olx.Activity.UpdateIklan;
-import fen.code.firestore.olx.Adapter.AdapterProfileIklan;
-import fen.code.firestore.olx.Model.ItemJual;
-import fen.code.firestore.olx.Model.User;
-import fen.code.firestore.olx.R;
-
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -51,12 +45,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import fen.code.firestore.olx.Activity.UpdateIklan;
+import fen.code.firestore.olx.Adapter.AdapterProfileIklan;
+import fen.code.firestore.olx.Model.ItemJual;
+import fen.code.firestore.olx.Model.User;
+import fen.code.firestore.olx.R;
+
 import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Profile extends Fragment {
+
     Button button;
     RecyclerView rvIklanHome;
     AdapterProfileIklan adapterHomeIklan;
@@ -82,10 +83,8 @@ public class Profile extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
 
@@ -130,7 +129,6 @@ public class Profile extends Fragment {
                         if (user.getImageUrl().equals("default")) {
                             imgProfile.setImageResource(R.drawable.add_user);
                         } else {
-
                             Glide.with(getContext())
                                     .load(user.getImageUrl())
                                     .into(imgProfile);
@@ -145,7 +143,6 @@ public class Profile extends Fragment {
     }
 
     void getData() {
-
         dialog.setMessage("Loading");
         dialog.show();
 
@@ -153,8 +150,6 @@ public class Profile extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-
                         for (DocumentSnapshot snapshot : task.getResult()) {
                             ItemJual itemJual = snapshot.toObject(ItemJual.class);
                             itemJualList.add(itemJual);
@@ -165,7 +160,6 @@ public class Profile extends Fragment {
                         rvIklanHome.setLayoutManager(new LinearLayoutManager(getActivity()));
                         rvIklanHome.setAdapter(adapterHomeIklan);
                         dialog.dismiss();
-
 
                         adapterHomeIklan.ActionClick(new AdapterProfileIklan.onAction() {
                             @Override
@@ -190,8 +184,6 @@ public class Profile extends Fragment {
 
             }
         });
-
-
     }
 
     String getFileExtention(Uri uri) {
@@ -236,7 +228,6 @@ public class Profile extends Fragment {
                     } else {
                         dialog.dismiss();
                         Toast.makeText(getActivity(), "Gagal Upload", Toast.LENGTH_LONG).show();
-
                     }
                 }
 
@@ -247,8 +238,6 @@ public class Profile extends Fragment {
 
                 }
             });
-
-
         } else {
             Toast.makeText(getActivity(), "Tidak ada image yg di pilih", Toast.LENGTH_LONG).show();
         }
@@ -259,11 +248,9 @@ public class Profile extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageCamera = data.getData();
-
             try {
                 //getting image from gallery
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageCamera);
-
                 //Setting image to ImageView
                 imgProfile.setImageBitmap(bitmap);
                 uploadimageProfile();

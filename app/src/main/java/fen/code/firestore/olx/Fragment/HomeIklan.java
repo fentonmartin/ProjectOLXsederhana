@@ -13,13 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import fen.code.firestore.olx.Activity.PostJualIklan;
-import fen.code.firestore.olx.Activity.UpdateIklan;
-import fen.code.firestore.olx.Adapter.AdapterHomeIklan;
-import fen.code.firestore.olx.Model.ItemJual;
-import fen.code.firestore.olx.Model.User;
-import fen.code.firestore.olx.R;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -36,11 +29,17 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import fen.code.firestore.olx.Activity.PostJualIklan;
+import fen.code.firestore.olx.Activity.UpdateIklan;
+import fen.code.firestore.olx.Adapter.AdapterHomeIklan;
+import fen.code.firestore.olx.Model.ItemJual;
+import fen.code.firestore.olx.Model.User;
+import fen.code.firestore.olx.R;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeIklan extends Fragment {
-
 
     Button button;
     RecyclerView rvIklanHome;
@@ -51,10 +50,10 @@ public class HomeIklan extends Fragment {
     ProgressDialog dialog;
     FirebaseUser user;
     String snapshotId;
+
     public HomeIklan() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,34 +71,27 @@ public class HomeIklan extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                user.getUid();
+                FirebaseDatabase.getInstance().getReference("Users").child(user.getUid())
+                        .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                User user = dataSnapshot.getValue(User.class);
+                                Intent intent = new Intent(getContext(), PostJualIklan.class);
+                                intent.putExtra("namaProfile", user.getUsername());
+                                intent.putExtra("imageProfile", user.getImageUrl());
+                                startActivity(intent);
+                            }
 
-                if (user.getUid() !=null)
-                {
-                    FirebaseDatabase.getInstance().getReference("Users").child(user.getUid())
-                            .addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    User user = dataSnapshot.getValue(User.class);
-                                    Intent intent = new Intent(getContext(), PostJualIklan.class);
-                                    intent.putExtra("namaProfile", user.getUsername());
-                                    intent.putExtra("imageProfile", user.getImageUrl());
-                                    startActivity(intent);
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-                }
-
+                            }
+                        });
             }
         });
-
         getData();
         return v;
-
     }
 
     void getData() {
@@ -110,14 +102,11 @@ public class HomeIklan extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-
                         for (DocumentSnapshot snapshot : task.getResult()) {
                             ItemJual itemJual = snapshot.toObject(ItemJual.class);
                             itemJualList.add(itemJual);
                             snapshotId = snapshot.getId();
                         }
-
                         adapterHomeIklan = new AdapterHomeIklan(getContext(), itemJualList);
                         rvIklanHome.setLayoutManager(new GridLayoutManager(getContext(), 2));
                         rvIklanHome.setAdapter(adapterHomeIklan);
@@ -130,7 +119,7 @@ public class HomeIklan extends Fragment {
                                 Intent intent = new Intent(getContext(), UpdateIklan.class);
                                 intent.putExtra("idsnapshot", snapshotId);
                                 intent.putExtra("getid", itemJual.getId());
-                                intent.putExtra("image",itemJual.getImageUpload());
+                                intent.putExtra("image", itemJual.getImageUpload());
                                 intent.putExtra("title", itemJual.getTxtTitle());
                                 intent.putExtra("harga", itemJual.getTxtHarga());
                                 intent.putExtra("deskripsi", itemJual.getTxtDeskripsi());
@@ -144,10 +133,5 @@ public class HomeIklan extends Fragment {
 
             }
         });
-
-
     }
-
-
-
 }

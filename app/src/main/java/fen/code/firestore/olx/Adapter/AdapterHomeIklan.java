@@ -10,20 +10,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import fen.code.firestore.olx.Model.ItemJual;
-import fen.code.firestore.olx.R;
-
 import com.google.firebase.auth.FirebaseUser;
 
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 
+import fen.code.firestore.olx.Model.ItemJual;
+import fen.code.firestore.olx.R;
+
 public class AdapterHomeIklan extends RecyclerView.Adapter<AdapterHomeIklan.ViewHolder> {
+
     Context context;
     List<ItemJual> jualList;
     onAction action;
     FirebaseUser user;
+
     public AdapterHomeIklan(Context context, List<ItemJual> jualList) {
         this.context = context;
         this.jualList = jualList;
@@ -31,7 +33,7 @@ public class AdapterHomeIklan extends RecyclerView.Adapter<AdapterHomeIklan.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_homeiklna,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_homeiklna, parent, false);
         return new ViewHolder(view);
     }
 
@@ -51,11 +53,9 @@ public class AdapterHomeIklan extends RecyclerView.Adapter<AdapterHomeIklan.View
                 .load(itemJual.getImageUpload())
                 .into(holder.imgIklan);
 
-
         Glide.with(context)
                 .load(itemJual.getImageProfile())
                 .into(holder.imgPenjual);
-
 
         holder.llClick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,9 +63,6 @@ public class AdapterHomeIklan extends RecyclerView.Adapter<AdapterHomeIklan.View
                 action.onActionClik(v, position);
             }
         });
-
-
-
     }
 
     @Override
@@ -74,9 +71,10 @@ public class AdapterHomeIklan extends RecyclerView.Adapter<AdapterHomeIklan.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtTitle ,txtNamePenjua,txtHarga;
+        TextView txtTitle, txtNamePenjua, txtHarga;
         ImageView imgIklan, imgPenjual;
         LinearLayout llClick, llUpdate;
+
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -90,11 +88,11 @@ public class AdapterHomeIklan extends RecyclerView.Adapter<AdapterHomeIklan.View
         }
     }
 
-    public interface onAction{
+    public interface onAction {
         void onActionClik(View view, int position);
     }
 
-    public void ActionClick(onAction onAction){
+    public void ActionClick(onAction onAction) {
         action = onAction;
     }
 }

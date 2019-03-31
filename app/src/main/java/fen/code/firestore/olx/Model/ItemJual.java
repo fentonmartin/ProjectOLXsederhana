@@ -1,7 +1,8 @@
 package fen.code.firestore.olx.Model;
 
 public class ItemJual {
-    public String id, imageUpload,txtTitle,txtDeskripsi,txtHarga, imageProfile , nameProfile;
+
+    public String id, imageUpload, txtTitle, txtDeskripsi, txtHarga, imageProfile, nameProfile;
 
     public ItemJual(String id, String imageUpload, String txtTitle, String txtDeskripsi, String txtHarga, String imageProfile, String nameProfile) {
         this.id = id;
@@ -12,11 +13,10 @@ public class ItemJual {
         this.imageProfile = imageProfile;
         this.nameProfile = nameProfile;
     }
-    public ItemJual()
-    {
+
+    public ItemJual() {
 
     }
-
 
     public String getNameProfile() {
         return nameProfile;
@@ -41,8 +41,6 @@ public class ItemJual {
     public void setId(String id) {
         this.id = id;
     }
-
-
 
     public String getImageUpload() {
         return imageUpload;

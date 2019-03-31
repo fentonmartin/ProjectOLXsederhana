@@ -3,9 +3,9 @@ package fen.code.firestore.olx.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,10 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import fen.code.firestore.olx.Model.ItemJual;
-import fen.code.firestore.olx.Model.User;
-import fen.code.firestore.olx.R;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,12 +28,17 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import fen.code.firestore.olx.Model.ItemJual;
+import fen.code.firestore.olx.Model.User;
+import fen.code.firestore.olx.R;
+
 public class UpdateIklan extends AppCompatActivity {
+
     String getIdsnapshot, getImage, getTitle, getDeskripsi, getHarga, getid, getIdSendiri;
 
     ImageView imgUpload;
     EditText txtTitle, txtDescripsi, txtHarga;
-    Button btnJuall ,btnUpdate,btnDelete;
+    Button btnJuall, btnUpdate, btnDelete;
     FirebaseFirestore firebaseFirestore;
     FirebaseUser user;
     LinearLayout llUpdateDelte;
@@ -47,13 +48,11 @@ public class UpdateIklan extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_iklan);
 
-
         firebaseFirestore = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
+
         initialize();
-
     }
-
 
     private void initialize() {
         getIdSendiri = getIntent().getStringExtra("getid");
@@ -85,7 +84,6 @@ public class UpdateIklan extends AppCompatActivity {
         txtHarga.setEnabled(false);
         Log.d("respongetImage", "i " + getIdSendiri);
 
-
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (getIdSendiri.equals(user.getUid())) {
             llUpdateDelte.setVisibility(View.VISIBLE);
@@ -96,7 +94,6 @@ public class UpdateIklan extends AppCompatActivity {
                     txtTitle.setEnabled(true);
                     txtDescripsi.setEnabled(true);
                     txtHarga.setEnabled(true);
-
                 }
             });
 
@@ -120,11 +117,9 @@ public class UpdateIklan extends AppCompatActivity {
             });
         }
 
-
         btnJuall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 FirebaseDatabase.getInstance().getReference("Users")
                         .child(user.getUid())
                         .addValueEventListener(new ValueEventListener() {
@@ -139,18 +134,16 @@ public class UpdateIklan extends AppCompatActivity {
 
                             }
                         });
-
             }
         });
     }
-
 
     void UpdateData(String imageProfile, String namaProfile) {
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("Update loading");
         dialog.show();
-        ItemJual itemJual = new ItemJual();
 
+        ItemJual itemJual = new ItemJual();
 
         itemJual.setImageProfile(imageProfile);
         itemJual.setNameProfile(namaProfile);
@@ -178,16 +171,15 @@ public class UpdateIklan extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Gagal Update", Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
     void deleteIklan() {
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("Delete Loading");
         dialog.show();
-        DocumentReference reference = firebaseFirestore.collection("uploadIklan")
+        DocumentReference reference = firebaseFirestore
+                .collection("uploadIklan")
                 .document(getIdsnapshot);
-
         reference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

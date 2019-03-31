@@ -2,8 +2,7 @@ package fen.code.firestore.olx.Model;
 
 public class User {
 
-    String email,id,imageUrl,statusinfo,username;
-
+    String email, id, imageUrl, statusinfo, username;
 
     public User(String email, String id, String imageUrl, String statusinfo, String username) {
         this.email = email;
@@ -13,9 +12,7 @@ public class User {
         this.username = username;
     }
 
-    public User()
-    {
-
+    public User() {
     }
 
     public String getEmail() {
@@ -33,7 +30,6 @@ public class User {
     public void setId(String id) {
         this.id = id;
     }
-
 
     public String getImageUrl() {
         return imageUrl;
